@@ -3,6 +3,14 @@ html, body {
   padding: 0;
 }
 
+html{
+  background: url(assets/oldtv.png) no-repeat center center fixed;
+   -webkit-background-size: cover;
+   -moz-background-size: cover;
+   -o-background-size: cover;
+   background-size: cover;
+
+}
 
 
 canvas {

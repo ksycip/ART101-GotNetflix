@@ -5,22 +5,30 @@
 let state = 'title';
 let cnv;
 let points = 0;
-let w = 600;
+let w = 800;
 let h = 600;
 let player;
 let coins = [];
 let playerImg;
 let coinImg;
+let timer = 5;
+
 
 function preload(){
-  playerImg = loadImage('assets/bunny2.png');
-  coinImg = loadImage('assets/carrot3.png');
+  playerImg = loadImage('assets/remote.png');
+  coinImg = loadImage('assets/tv.png');
+
 }
 
 function setup() {
   cnv = createCanvas(w, h);
 
-  textFont('courier');
+  // var cnv = createCanvas(windowWidth, windowHeight);
+  //  var x = (windowWidth - width) / 2;
+  //  var y = (windowHeight - height) / 2;
+  //  cnv.position(x, y);
+
+  textFont('impact');
 
   player = new Player();
 
@@ -73,17 +81,21 @@ function keyPressed() {
 }
 
 function title() {
-  background(179, 187, 182);
+  background(0, 0, 0);
   textSize(80);
-  fill(255);
+  fill(99, 6, 11);
   textAlign(CENTER);
-  text('HUNGRY BUNNY', w / 2, h / 5);
+  text('NETFLIX?', w / 2, h / 3);
+
+  textSize(60);
+  text('GOT', w / 2, h/ 5);
+
 
   textSize(30);
   text('click anywhere to start', w / 2, h / 2);
 
-  textSize(20);
-  text('use arrow keys to help bunny eat some carrots', w / 2, h / 1.5);
+  textSize(16);
+  text('use arrow keys to navigate through netflix and binge!', w / 2, h / 1.5);
 
 }
 
@@ -95,8 +107,20 @@ function titleMouseClicked() {
 
 
 function level1() {
-  background(174, 124, 108);
+  background(204, 204, 204);
   //text('click for points', w/2, h - 30);
+
+  textAlign(CENTER, CENTER);
+ textSize(60);
+ text(timer, width/2, height/2);
+
+ if (frameCount % 60 == 0 && timer > 0) { // if the frameCount is divisible by 60, then a second has passed. it will stop at 0
+    timer --;
+  }
+  if (timer == 0) {
+    //text("BEGIN", width/2, height*0.7);
+  }
+
 
   if (random(1) <= 0.01){
     coins.push(new Coin());
@@ -112,21 +136,10 @@ function level1() {
   for (let i = 0; i  < coins.length; i ++){
     coins[i].display();
     coins[i].move();
+
+
+
   }
-
-//using forEach loop
-
-// coins.forEach(function(coin){
-//   coin.display();
-//   coin.move();
-// })
-
-
-//using for of loop
-// for (let coin of coins){
-//   coin.display();
-//   coin.move();
-// }
 
 
   //check for collision, if collision them point increase by 1 and splice that coin out of array
@@ -146,18 +159,18 @@ function level1() {
 }
 
 function level1MouseClicked() {
-  // points++;
-  // console.log('points = ' + points);
-  //
-  // if (points >= 10) {
-  //   state = 'you win';
-  // }
+  points++;
+  console.log('points = ' + points);
+
+  if (points >= 10) {
+    state = 'GAME OVER';
+  }
 
 
 }
 
 function youWin() {
-  background(91, 91, 74);
+  background(0, 0, 0);
   textSize(80);
   stroke(255);
   text('YOU WIN', w / 2, h / 2);
