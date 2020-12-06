@@ -12,8 +12,25 @@ html{
 
 }
 
+/* img{
+  /* width: 1300px;
+  height: 800px; */
+
+  /* max-width: 80%;
+   height: auto;
+   width: auto; */
+
+
+
+canvas {
+  border-radius: 30px;
+}
+
 
 canvas {
   display: block;
-  margin: 50px auto 50px auto
+  position: fixed;
+  top: 90px;
+  left: 130px;
+  z-index: -1;
 }
