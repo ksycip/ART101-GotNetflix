@@ -12,6 +12,8 @@ class Player {
     image(playerImg, this.x, this.y, this.r, this.r);
   }
 
+
+
   move() {
 
     switch (this.direction) {

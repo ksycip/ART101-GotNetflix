@@ -4,7 +4,7 @@ html, body {
 }
 
 html{
-  background: url(assets/oldtv.png) no-repeat center center fixed;
+  background: url(assets/oldtv2.png) no-repeat center center fixed;
    -webkit-background-size: cover;
    -moz-background-size: cover;
    -o-background-size: cover;
@@ -22,15 +22,17 @@ html{
 
 
 
+
+
 canvas {
-  border-radius: 30px;
+  border-radius: 45px;
 }
 
 
 canvas {
   display: block;
   position: fixed;
-  top: 90px;
-  left: 130px;
+  top: 100px;
+  left: 220px;
   z-index: -1;
 }

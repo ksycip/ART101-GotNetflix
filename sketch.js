@@ -1,32 +1,31 @@
 'use strict';
 
-
-
 let state = 'title';
 let cnv;
 let points = 0;
-let w = 900;
-let h = 600;
+let w = 775;
+let h = 530;
 let player;
 let coins = [];
 let playerImg;
 let coinImg;
 let timer = 5;
-
+let pointSound;
+let beginSound;
+let deathSound;
 
 function preload() {
   playerImg = loadImage('assets/remote.png');
   coinImg = loadImage('assets/tv.png');
-
+  pointSound = loadSound('sound/point.wav');
+  beginSound = loadSound('sound/begin.wav');
+  deathSound = loadSound('sound/death.wav');
+  // song1 = loadSound('sound/begin.wav');
+  // song3 = loadSound('sound/death.wav');
 }
 
 function setup() {
   cnv = createCanvas(w, h);
-
-  // var cnv = createCanvas(windowWidth, windowHeight);
-  //  var x = (windowWidth - width) / 2;
-  //  var y = (windowHeight - height) / 2;
-  //  cnv.position(x, y);
 
   textFont('impact');
 
@@ -52,11 +51,11 @@ function draw() {
       youWin();
       cnv.mouseClicked(youWinMouseClicked);
       break;
-  case 'game over':
+    case 'game over':
       gameOver();
       cnv.mouseClicked(gameOverMouseClicked);
       break;
-  default:
+    default:
       break;
   }
   // if (state === 'title'){
@@ -86,8 +85,11 @@ function keyPressed() {
 }
 
 function title() {
-  background(0, 0, 0);
+  //background(0, 0, 0);
+  background(93, 93, 93);
   textSize(150);
+  stroke(0, 0, 0);
+  strokeWeight(10)
   fill(99, 6, 11);
   textAlign(CENTER);
   text('NETFLIX?', w / 2, h / 2);
@@ -108,29 +110,19 @@ function title() {
 function titleMouseClicked() {
   console.log('canvas is clicked on title page');
   state = 'level1'
+  beginSound.play();
 }
 
 
 function level1() {
-  background(204, 204, 204);
+  background(174, 174, 174);
+  strokeWeight(0);
   //text('click for points', w/2, h - 30);
 
-  if (timer >= 0) {
-  textAlign(CENTER, CENTER);
-  textSize(60);
-  text(timer, width / 2, height / 2);
-} else{
-  textSize(50);
-  text('GAME OVER', width / 2, height / 2);
-}
 
-
-  if (frameCount % 60 == 0 && timer >= 0){  // if the frameCount is divisible by 60, then a second has passed. it will stop at 0
-    timer--;
-  }
-  if (timer == 0) {
-    //text("BEGIN", width/2, height*0.7);
-  }
+  // if (timer == 0) {
+  //   //text("BEGIN", width/2, height*0.7);
+  // }
 
   if (random(1) <= 0.01) {
     coins.push(new Coin());
@@ -148,12 +140,14 @@ function level1() {
     coins[i].move();
   }
 
+
   //check for collision, if collision them point increase by 1 and splice that coin out of array
   //need to iterate backwards through array
   for (let i = coins.length - 1; i >= 0; i--) {
     if (dist(player.x, player.y, coins[i].x, coins[i].y) <= (player.r + coins[i].r) / 2) {
       points++;
       console.log(points);
+      pointSound.play();
       coins.splice(i, 1);
     } else if (coins[i].y > h) {
       coins.splice(i, 1);
@@ -162,12 +156,30 @@ function level1() {
   }
 
   text(`points: ${points}`, w / 4, h - 30);
+
+
+  if (timer >= 0) {
+    textAlign(CENTER, CENTER);
+    textSize(60);
+    text(timer, width / 2, height / 2);
+  } else {
+    textSize(50);
+    text('GAME OVER', width / 2, height / 2);
+  }
+
+
+  if (frameCount % 60 == 0 && timer >= 0) { // if the frameCount is divisible by 60, then a second has passed. it will stop at 0
+    timer--;
+
+  }
 }
 
 function level1MouseClicked() {
   points++;
   console.log('points = ' + points);
 
+
+//create function for if-timer reaches 0, then GAME OVER
   if (points >= 10) {
     state = 'GAME OVER';
   }
