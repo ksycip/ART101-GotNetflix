@@ -5,14 +5,16 @@ let cnv;
 let points = 0;
 let w = 775;
 let h = 530;
-let player;
+let player = 1;
 let coins = [];
 let playerImg;
 let coinImg;
-let timer = 5;
+let timer = 15;
 let pointSound;
 let beginSound;
 let deathSound;
+let winSound;
+
 
 function preload() {
   playerImg = loadImage('assets/remote.png');
@@ -20,12 +22,14 @@ function preload() {
   pointSound = loadSound('sound/point.wav');
   beginSound = loadSound('sound/begin.wav');
   deathSound = loadSound('sound/death.wav');
+  winSound = loadSound('sound/win1.m4a');
   // song1 = loadSound('sound/begin.wav');
   // song3 = loadSound('sound/death.wav');
 }
 
 function setup() {
   cnv = createCanvas(w, h);
+
 
   textFont('impact');
 
@@ -67,7 +71,10 @@ function draw() {
   // } else {
   //
   // }
+
+
 }
+
 
 function keyPressed() {
   if (keyCode == LEFT_ARROW) {
@@ -85,8 +92,8 @@ function keyPressed() {
 }
 
 function title() {
-  //background(0, 0, 0);
-  background(93, 93, 93);
+  background(0, 0, 0);
+  //background(93, 93, 93);
   textSize(150);
   stroke(0, 0, 0);
   strokeWeight(10)
@@ -101,9 +108,14 @@ function title() {
   textSize(35);
   text('click anywhere to start', w / 2, h / 1.5);
 
+  // textSize(22);
+  // text('HOW TO PLAY' w / 2, h / 1.5);
+
   textSize(20);
   text('use arrow keys to navigate through netflix and binge!', w / 2, h / 1.25);
 
+  textSize(20);
+  text('can you reach 10 hours binged before the timer runs out?', w / 2, h / 1.10);
 }
 
 
@@ -117,20 +129,18 @@ function titleMouseClicked() {
 function level1() {
   background(174, 174, 174);
   strokeWeight(0);
+  text(timer, 700, 60);
   //text('click for points', w/2, h - 30);
-
-
   // if (timer == 0) {
   //   //text("BEGIN", width/2, height*0.7);
   // }
 
-  if (random(1) <= 0.01) {
+  if (random(1) <= 0.03) {
     coins.push(new Coin());
   }
 
   player.display();
   player.move();
-
 
   // iterating through colors array to display and move them
 
@@ -155,35 +165,57 @@ function level1() {
     }
   }
 
-  text(`points: ${points}`, w / 4, h - 30);
+  //text(`points: ${points}`, w / 3.5, h - 20);
+  textSize(20);
+  text(`hours binged: ${points}`, w / 2, h - 20);
 
+// check points value to win or lose
+  if (points >= 10){
+    state = 'you win';
+    winSound.play();
+  } else if (timer <= 0){
+    state = 'game over';
+    deathSound.play();
+  }
 
-  if (timer >= 0) {
-    textAlign(CENTER, CENTER);
-    textSize(60);
-    text(timer, width / 2, height / 2);
-  } else {
-    textSize(50);
-    text('GAME OVER', width / 2, height / 2);
+//backup timer!!!
+
+  // if (timer >= 0) {
+  //   textAlign(RIGHT);
+  //   textSize(60);
+  //   //text(timer, width / 2, height / 2);
+  //   // text(timer, 700, 60);
+  // } else {
+  //
+  //   //text('GAME OVER', width / 2, height / 2);
+  // }
+  //
+  // if (frameCount % 60 == 0 && timer >= 0) { // if the frameCount is divisible by 60, then a second has passed. it will stop at 0
+  //   timer--;
+  // }
+
+// place timer here
+
+if (frameCount % 60 == 0 && timer > 0) { // if the frameCount is divisible by 60, then a second has passed. it will stop at 0
+    timer --;
+  }
+  if (timer == 0) {
+    //text("GAME OVER", width/2, height*0.7);
   }
 
 
-  if (frameCount % 60 == 0 && timer >= 0) { // if the frameCount is divisible by 60, then a second has passed. it will stop at 0
-    timer--;
 
-  }
 }
 
 function level1MouseClicked() {
-  points++;
-  console.log('points = ' + points);
-
+  // points++;
+  // console.log('points = ' + points);
+  //
 
 //create function for if-timer reaches 0, then GAME OVER
-  if (points >= 10) {
-    state = 'GAME OVER';
-  }
-
+  // if (points >= 10) {
+  //   state = 'GAME OVER';
+  // }
 
 }
 
@@ -193,13 +225,31 @@ function youWin() {
   stroke(255);
   text('YOU WIN', w / 2, h / 2);
 
-  text('YOUR HIGH SCORE: ', w / 2, h / 5);
+
+  text('HIGH SCORE!', w / 2, h / 5);
 
   textSize(30);
   text('click anywhere to restart', w / 2, h * 3 / 4);
 }
 
 function youWinMouseClicked() {
-  state = 'level1';
+  state = 'title';
+  points = 0;
+}
+
+function gameOver() {
+  background(0, 0, 0);
+  textSize(80);
+  stroke(255);
+  text('GAME OVER', w / 2, h / 2);
+
+  text('YOU LOST! ', w / 2, h / 5);
+
+  textSize(30);
+  text('click anywhere to restart', w / 2, h * 3 / 4);
+}
+
+function gameOverMouseClicked() {
+  state = 'title';
   points = 0;
 }
