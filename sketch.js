@@ -14,7 +14,7 @@ let pointSound;
 let beginSound;
 let deathSound;
 let winSound;
-
+let myFont;
 
 function preload() {
   playerImg = loadImage('assets/remote.png');
@@ -23,6 +23,7 @@ function preload() {
   beginSound = loadSound('sound/begin.wav');
   deathSound = loadSound('sound/death.wav');
   winSound = loadSound('sound/win1.m4a');
+  myFont = loadFont('fonts/1982/1982.TTF');
   // song1 = loadSound('sound/begin.wav');
   // song3 = loadSound('sound/death.wav');
 }
@@ -31,7 +32,8 @@ function setup() {
   cnv = createCanvas(w, h);
 
 
-  textFont('impact');
+  //textFont('impact');
+  textFont(myFont);
 
   player = new Player();
 
@@ -92,16 +94,29 @@ function keyPressed() {
 }
 
 function title() {
-  background(0, 0, 0);
-  //background(93, 93, 93);
-  textSize(150);
-  stroke(0, 0, 0);
-  strokeWeight(10)
-  fill(99, 6, 11);
+  //background(0, 0, 0);
+  background(147, 7, 8);
+  textSize(100);
+  //stroke(243, 243, 243);
+  //stroke(34, 34, 34);
+  //strokeWeight(20)
+  //fill(99, 6, 11);
+  //red logo
+  //fill(147, 7, 8);
+  //white logo
+  fill(255, 255, 255);
   textAlign(CENTER);
+
+  stroke(0, 0, 0);
+  //stroke(237, 237, 237);
+  strokeWeight(15);
+
   text('NETFLIX?', w / 2, h / 2);
 
   textSize(60);
+  strokeWeight(2);
+  stroke(0, 0, 0);
+  fill(255, 255, 255);
   text('GOT', w / 2, h / 4);
 
 
@@ -111,10 +126,10 @@ function title() {
   // textSize(22);
   // text('HOW TO PLAY' w / 2, h / 1.5);
 
-  textSize(20);
+  textSize(15);
   text('use arrow keys to navigate through netflix and binge!', w / 2, h / 1.25);
 
-  textSize(20);
+  textSize(15);
   text('can you reach 10 hours binged before the timer runs out?', w / 2, h / 1.10);
 }
 
@@ -127,8 +142,10 @@ function titleMouseClicked() {
 
 
 function level1() {
-  background(174, 174, 174);
+  //background(174, 174, 174);
+  background(147, 7, 8);
   strokeWeight(0);
+  fill(255, 255, 255);
   text(timer, 700, 60);
   //text('click for points', w/2, h - 30);
   // if (timer == 0) {
@@ -167,18 +184,18 @@ function level1() {
 
   //text(`points: ${points}`, w / 3.5, h - 20);
   textSize(20);
-  text(`hours binged: ${points}`, w / 2, h - 20);
+  text(`hours binged: ${points}`, w / 2, h - 30);
 
-// check points value to win or lose
-  if (points >= 10){
+  // check points value to win or lose
+  if (points >= 10) {
     state = 'you win';
     winSound.play();
-  } else if (timer <= 0){
+  } else if (timer <= 0) {
     state = 'game over';
     deathSound.play();
   }
 
-//backup timer!!!
+  //backup timer!!!
 
   // if (timer >= 0) {
   //   textAlign(RIGHT);
@@ -194,10 +211,10 @@ function level1() {
   //   timer--;
   // }
 
-// place timer here
+  // place timer here
 
-if (frameCount % 60 == 0 && timer > 0) { // if the frameCount is divisible by 60, then a second has passed. it will stop at 0
-    timer --;
+  if (frameCount % 60 == 0 && timer > 0) { // if the frameCount is divisible by 60, then a second has passed. it will stop at 0
+    timer--;
   }
   if (timer == 0) {
     //text("GAME OVER", width/2, height*0.7);
@@ -212,7 +229,7 @@ function level1MouseClicked() {
   // console.log('points = ' + points);
   //
 
-//create function for if-timer reaches 0, then GAME OVER
+  //create function for if-timer reaches 0, then GAME OVER
   // if (points >= 10) {
   //   state = 'GAME OVER';
   // }
@@ -223,6 +240,7 @@ function youWin() {
   background(0, 0, 0);
   textSize(80);
   stroke(255);
+  fill(147, 7, 8);
   text('YOU WIN', w / 2, h / 2);
 
 
@@ -241,6 +259,7 @@ function gameOver() {
   background(0, 0, 0);
   textSize(80);
   stroke(255);
+  fill(147, 7, 8);
   text('GAME OVER', w / 2, h / 2);
 
   text('YOU LOST! ', w / 2, h / 5);
